@@ -9,14 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById('logoutBtn');
     const transferRequestsInput = document.getElementById('transferRequests');
 
-    // Check if user is logged in
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-        loginModal.style.display = 'none';
-        mainApp.style.display = 'block';
-    } else {
-        loginModal.style.display = 'block';
-        mainApp.style.display = 'none';
-    }
+    // Clear login state on page load to force login modal
+    localStorage.removeItem('isLoggedIn');
+
+    // Show login modal by default
+    loginModal.style.display = 'block';
+    mainApp.style.display = 'none';
 
     // Login
     loginForm.addEventListener('submit', (e) => {
@@ -28,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('isLoggedIn', 'true');
             loginModal.style.display = 'none';
             mainApp.style.display = 'block';
+            // Render content after successful login
+            renderLearners();
+            renderFees();
+            renderBooks();
+            renderClassBooks();
         } else {
             alert('Invalid credentials');
         }
@@ -522,13 +525,5 @@ document.addEventListener('DOMContentLoaded', () => {
         const ws = XLSX.utils.aoa_to_sheet(wsData);
         XLSX.utils.book_append_sheet(wb, ws, 'Report');
         XLSX.writeFile(wb, 'school_management_report.xlsx');
-    }
-
-    // Initial Render (only if logged in)
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-        renderLearners();
-        renderFees();
-        renderBooks();
-        renderClassBooks();
     }
 });
