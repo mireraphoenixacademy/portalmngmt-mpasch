@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management Portal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal login-modal">
+        <div class="modal-content">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" required><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" required><br>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Content (Hidden until login) -->
+    <div id="mainApp" style="display: none;">
+        <header>
+            <div class="logo">School Management Portal</div>
+            <div class="header-actions">
+                <button>System Users (Teachers)</button>
+                <span>Transfer Requests: <input type="number" id="transferRequests" value="0" style="width: 50px;"></span>
+                <button>WELCOME!</button>
+                <span>Address: 368-20117 - MIERA PHOENIX ACADEMY | <a href="#" id="logoutBtn">Log Out</a></span>
+            </div>
+        </header>
+
+        <div class="container">
+            <aside class="sidebar">
+                <h3>System Access Menu</h3>
+                <ul>
+                    <li><a href="#learners">Manage Learners</a></li>
+                    <li><a href="#fees">Manage Fees</a></li>
+                    <li><a href="#books">Manage Books (Admin)</a></li>
+                    <li><a href="#classBooks">Manage Books (Librarian/Teachers)</a></li>
+                    <li><a href="#reports">Reports</a></li>
+                </ul>
+            </aside>
+
+            <main class="main-content">
+                <h2>School Name: MIERA PHOENIX ACADEMY</h2>
+
+                <!-- Learners Section -->
+                <section id="learners">
+                    <h3>Manage Learners</h3>
+                    <button class="add-learner-btn">Add New Learner</button>
+                    <div class="entries">
+                        <label for="entries">Show </label>
+                        <select id="entries">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select> entries
+                    </div>
+                    <table id="learnersTable">
+                        <thead>
+                            <tr>
+                                <th>Admission No.</th>
+                                <th>Full Name</th>
+                                <th>Gender</th>
+                                <th>DoB</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="learnersBody"></tbody>
+                    </table>
+                    <div class="pagination">
+                        <button id="prevBtn">Previous</button>
+                        <span id="pageInfo">Showing 1 to 10 of 10 entries</span>
+                        <button id="nextBtn">Next</button>
+                    </div>
+                </section>
+
+                <!-- Fees Section -->
+                <section id="fees" style="display: none;">
+                    <h3>Manage Fees</h3>
+                    <table id="feesTable">
+                        <thead>
+                            <tr>
+                                <th>Admission No.</th>
+                                <th>Full Name</th>
+                                <th>Term</th>
+                                <th>Amount Paid</th>
+                                <th>Balance</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="feesBody"></tbody>
+                    </table>
+                    <button class="add-fee-btn">Add Fee Record</button>
+                </section>
+
+                <!-- Books (Admin) Section -->
+                <section id="books" style="display: none;">
+                    <h3>Manage Books (Admin)</h3>
+                    <table id="booksTable">
+                        <thead>
+                            <tr>
+                                <th>Admission No.</th>
+                                <th>Full Name</th>
+                                <th>Subject</th>
+                                <th>Book Title</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="booksBody"></tbody>
+                    </table>
+                    <button class="add-book-btn">Add Book Record</button>
+                </section>
+
+                <!-- Books (Librarian/Teachers) Section -->
+                <section id="classBooks" style="display: none;">
+                    <h3>Manage Books (Librarian/Teachers)</h3>
+                    <table id="classBooksTable">
+                        <thead>
+                            <tr>
+                                <th>Book Number</th>
+                                <th>Subject</th>
+                                <th>Book Description</th>
+                                <th>Total Number of Books</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="classBooksBody"></tbody>
+                    </table>
+                    <button class="add-class-book-btn">Add Book Record</button>
+                </section>
+
+                <!-- Reports Section -->
+                <section id="reports" style="display: none;">
+                    <h3>Reports</h3>
+                    <button onclick="downloadPDF()">Download as PDF</button>
+                    <button onclick="downloadExcel()">Download as Excel</button>
+                </section>
+
+                <!-- Add/Edit Forms -->
+                <div id="addLearnerForm" class="modal">
+                    <div class="modal-content">
+                        <span class="close">×</span>
+                        <h3>Add New Learner</h3>
+                        <form id="learnerForm">
+                            <label for="fullName">Full Name:</label>
+                            <input type="text" id="fullName" required><br>
+                            <label for="gender">Gender:</label>
+                            <select id="gender" required>
+                                <option value="M">M</option>
+                                <option value="F">F</option>
+                            </select><br>
+                            <label for="dob">Date of Birth:</label>
+                            <input type="date" id="dob" required><br>
+                            <button type="submit">Save</button>
+                            <button type="button" class="cancel">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="editLearnerForm" class="modal">
+                    <div class="modal-content">
+                        <span class="close">×</span>
+                        <h3>Edit Learner</h3>
+                        <form id="editLearnerFormElement">
+                            <input type="hidden" id="editLearnerIndex">
+                            <label for="editFullName">Full Name:</label>
+                            <input type="text" id="editFullName" required><br>
+                            <label for="editGender">Gender:</label>
+                            <select id="editGender" required>
+                                <option value="M">M</option>
+                                <option value="F">F</option>
+                            </select><br>
+                            <label for="editDob">Date of Birth:</label>
+                            <input type="date" id="editDob" required><br>
+                            <button type="submit">Update</button>
+                            <button type="button" class="cancel">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="addFeeForm" class="modal">
+                    <div class="modal-content">
+                        <span class="close">×</span>
+                        <h3>Add Fee Record</h3>
+                        <form id="feeForm">
+                            <label for="feeAdmissionNo">Admission No.:</label>
+                            <select id="feeAdmissionNo" required></select><br>
+                            <label for="term">Term:</label>
+                            <input type="text" id="term" required><br>
+                            <label for="amountPaid">Amount Paid:</label>
+                            <input type="number" id="amountPaid" required><br>
+                            <label for="balance">Balance:</label>
+                            <input type="number" id="balance" required><br>
+                            <button type="submit">Save</button>
+                            <button type="button" class="cancel">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="editFeeForm" class="modal">
+                    <div class="modal-content">
+                        <span class="close">×</span>
+                        <h3>Edit Fee Record</h3>
+                        <form id="editFeeFormElement">
+                            <input type="hidden" id="editFeeIndex">
+                            <label for="editFeeAdmissionNo">Admission No.:</label>
+                            <select id="editFeeAdmissionNo" required></select><br>
+                            <label for="editTerm">Term:</label>
+                            <input type="text" id="editTerm" required><br>
+                            <label for="editAmountPaid">Amount Paid:</label>
+                            <input type="number" id="editAmountPaid" required><br>
+                            <label for="editBalance">Balance:</label>
+                            <input type="number" id="editBalance" required><br>
+                            <button type="submit">Update</button>
+                            <button type="button" class="cancel">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="addBookForm" class="modal">
+                    <div class="modal-content">
+                        <span class="close">×</span>
+                        <h3>Add Book Record</h3>
+                        <form id="bookForm">
+                            <label for="bookAdmissionNo">Admission No.:</label>
+                            <select id="bookAdmissionNo" required></select><br>
+                            <label for="subject">Subject:</label>
+                            <input type="text" id="subject" required><br>
+                            <label for="bookTitle">Book Title:</label>
+                            <input type="text" id="bookTitle" required><br>
+                            <button type="submit">Save</button>
+                            <button type="button" class="cancel">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="editBookForm" class="modal">
+                    <div class="modal-content">
+                        <span class="close">×</span>
+                        <h3>Edit Book Record</h3>
+                        <form id="editBookFormElement">
+                            <input type="hidden" id="editBookIndex">
+                            <label for="editBookAdmissionNo">Admission No.:</label>
+                            <select id="editBookAdmissionNo" required></select><br>
+                            <label for="editSubject">Subject:</label>
+                            <input type="text" id="editSubject" required><br>
+                            <label for="editBookTitle">Book Title:</label>
+                            <input type="text" id="editBookTitle" required><br>
+                            <button type="submit">Update</button>
+                            <button type="button" class="cancel">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="addClassBookForm" class="modal">
+                    <div class="modal-content">
+                        <span class="close">×</span>
+                        <h3>Add Class Book Record</h3>
+                        <form id="classBookForm">
+                            <label for="bookNumber">Book Number:</label>
+                            <input type="text" id="bookNumber" required><br>
+                            <label for="classSubject">Subject:</label>
+                            <input type="text" id="classSubject" required><br>
+                            <label for="bookDescription">Book Description:</label>
+                            <input type="text" id="bookDescription" required><br>
+                            <label for="totalBooks">Total Number of Books:</label>
+                            <input type="number" id="totalBooks" required><br>
+                            <button type="submit">Save</button>
+                            <button type="button" class="cancel">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="editClassBookForm" class="modal">
+                    <div class="modal-content">
+                        <span class="close">×</span>
+                        <h3>Edit Class Book Record</h3>
+                        <form id="editClassBookFormElement">
+                            <input type="hidden" id="editClassBookIndex">
+                            <label for="editBookNumber">Book Number:</label>
+                            <input type="text" id="editBookNumber" required><br>
+                            <label for="editClassSubject">Subject:</label>
+                            <input type="text" id="editClassSubject" required><br>
+                            <label for="editBookDescription">Book Description:</label>
+                            <input type="text" id="editBookDescription" required><br>
+                            <label for="editTotalBooks">Total Number of Books:</label>
+                            <input type="number" id="editTotalBooks" required><br>
+                            <button type="submit">Update</button>
+                            <button type="button" class="cancel">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Removed md5 library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
