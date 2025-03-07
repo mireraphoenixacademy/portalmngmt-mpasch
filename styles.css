@@ -1,49 +1,73 @@
-/* Add styles for login modal */
-body {
-    font-family: Arial, sans-serif;
+/* Reset default styles */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    box-sizing: border-box;
 }
 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    font-size: 16px; /* Base font size for better scaling */
+}
+
+/* Login Modal */
 .login-modal {
     display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
 }
 
 .modal-content {
     background-color: white;
     margin: 15% auto;
     padding: 20px;
-    width: 70%;
+    width: 90%;
     max-width: 500px;
-    position: relative;
     text-align: center;
+    border-radius: 8px;
 }
 
 .modal-content h2 {
     margin-bottom: 20px;
+    font-size: 1.5rem;
 }
 
 .modal-content form label {
     display: block;
     margin: 10px 0 5px;
+    font-size: 1rem;
 }
 
 .modal-content form input {
     width: 100%;
-    padding: 5px;
-    margin-bottom: 10px;
+    padding: 8px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 .modal-content form button {
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 10px 20px;
     cursor: pointer;
+    font-size: 1rem;
+    border-radius: 4px;
 }
 
-/* Existing styles */
+.modal-content form button:hover {
+    background-color: #45a049;
+}
+
+/* Header */
 header {
     background-color: #333;
     color: white;
@@ -51,11 +75,19 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .logo {
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: bold;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .header-actions button {
@@ -63,8 +95,17 @@ header {
     color: white;
     border: none;
     padding: 5px 10px;
-    margin-right: 10px;
     cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: 4px;
+}
+
+.header-actions button:hover {
+    background-color: #45a049;
+}
+
+.header-actions span {
+    font-size: 0.9rem;
 }
 
 .header-actions span a {
@@ -74,28 +115,33 @@ header {
 
 .header-actions input[type="number"] {
     padding: 2px;
-    margin-left: 5px;
-    margin-right: 10px;
+    width: 50px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
 }
 
+/* Main Container */
 .container {
     display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 60px);
 }
 
+/* Sidebar */
 .sidebar {
-    width: 200px;
+    width: 100%;
     background-color: #f8f8f8;
     padding: 20px;
-    height: calc(100vh - 60px);
 }
 
 .sidebar h3 {
-    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.25rem;
 }
 
 .sidebar ul {
     list-style: none;
-    padding: 0;
 }
 
 .sidebar ul li {
@@ -105,11 +151,25 @@ header {
 .sidebar ul li a {
     text-decoration: none;
     color: #333;
+    font-size: 1rem;
+    display: block;
+    padding: 8px;
+    border-radius: 4px;
 }
 
+.sidebar ul li a:hover {
+    background-color: #ddd;
+}
+
+/* Main Content */
 .main-content {
     flex-grow: 1;
     padding: 20px;
+}
+
+.main-content h2 {
+    font-size: 1.75rem;
+    margin-bottom: 20px;
 }
 
 section {
@@ -118,12 +178,21 @@ section {
 
 .entries, .pagination {
     margin: 10px 0;
+    font-size: 0.9rem;
 }
 
+.entries select {
+    padding: 5px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+}
+
+/* Tables */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    font-size: 0.9rem;
 }
 
 table, th, td {
@@ -137,11 +206,19 @@ th, td {
 
 th {
     background-color: #f2f2f2;
+    font-size: 0.9rem;
 }
 
+td {
+    font-size: 0.85rem;
+}
+
+/* Buttons */
 button {
     padding: 5px 10px;
     cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: 4px;
 }
 
 .add-learner-btn, .add-fee-btn, .add-book-btn, .add-class-book-btn {
@@ -151,6 +228,11 @@ button {
     margin-bottom: 10px;
 }
 
+.add-learner-btn:hover, .add-fee-btn:hover, .add-book-btn:hover, .add-class-book-btn:hover {
+    background-color: #007bb5;
+}
+
+/* Modals */
 .modal {
     display: none;
     position: fixed;
@@ -158,16 +240,17 @@ button {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
 }
 
 .modal-content {
     background-color: white;
     margin: 15% auto;
     padding: 20px;
-    width: 70%;
+    width: 90%;
     max-width: 500px;
-    position: relative;
+    border-radius: 8px;
 }
 
 .close {
@@ -181,22 +264,174 @@ button {
 form label {
     display: block;
     margin: 10px 0 5px;
+    font-size: 1rem;
 }
 
 form input, form select {
     width: 100%;
-    padding: 5px;
-    margin-bottom: 10px;
+    padding: 8px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 form button {
     background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 10px 20px;
     margin-right: 10px;
+    font-size: 1rem;
+    border-radius: 4px;
+}
+
+form button:hover {
+    background-color: #45a049;
 }
 
 .cancel {
     background-color: #f44336;
+}
+
+.cancel:hover {
+    background-color: #da190b;
+}
+
+/* Responsive Design with Media Queries */
+
+/* Tablets (min-width: 768px) */
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 200px;
+        height: calc(100vh - 60px);
+    }
+
+    .header-actions {
+        flex-wrap: nowrap;
+    }
+
+    .logo {
+        font-size: 1.75rem;
+    }
+
+    .header-actions button, .header-actions span {
+        font-size: 1rem;
+    }
+
+    .main-content h2 {
+        font-size: 2rem;
+    }
+
+    th, td {
+        font-size: 1rem;
+    }
+
+    button {
+        font-size: 1rem;
+    }
+}
+
+/* Desktops (min-width: 1024px) */
+@media (min-width: 1024px) {
+    .sidebar {
+        width: 250px;
+    }
+
+    .main-content {
+        padding: 30px;
+    }
+
+    .modal-content {
+        margin: 10% auto;
+        width: 70%;
+    }
+}
+
+/* Mobile Devices (max-width: 767px) */
+@media (max-width: 767px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 10px;
+    }
+
+    .header-actions button, .header-actions span {
+        margin: 5px 0;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+
+    .main-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .sidebar {
+        padding: 15px;
+    }
+
+    .sidebar h3 {
+        font-size: 1.1rem;
+    }
+
+    .sidebar ul li a {
+        font-size: 0.9rem;
+    }
+
+    /* Make tables scrollable horizontally on mobile */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th, td {
+        font-size: 0.8rem;
+        padding: 6px;
+    }
+
+    .entries select, .pagination {
+        font-size: 0.8rem;
+    }
+
+    button {
+        font-size: 0.8rem;
+        padding: 5px 8px;
+    }
+
+    .modal-content {
+        margin: 20% auto;
+        width: 95%;
+        padding: 15px;
+    }
+
+    .modal-content h3 {
+        font-size: 1.25rem;
+    }
+
+    form label {
+        font-size: 0.9rem;
+    }
+
+    form input, form select {
+        font-size: 0.9rem;
+        padding: 6px;
+    }
+
+    form button {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
 }
